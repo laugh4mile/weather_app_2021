@@ -1,38 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import Loading from './Loading';
+import * as Location from 'expo-location';
+import { Alert } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.yellowView}>
-        {/* <Text style={styles.text}></Text> */}
-        <Text> ㅎㅇ</Text>
-      </View>
-      <View style={styles.blueView}>
-        {/* <Text style={styles.text}></Text> */}
-        <Text> ㅎㅇ</Text>
-      </View>
-      <StatusBar style="auto" />
-    </View>
-  );
+export default class extends React.Component {
+  state = {
+    isLoading: true,
+  };
+  getLocation = async () => {
+    try {
+      const response = await Location.requestForegroundPermissionsAsync();
+      console.log(response);
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+      this.setState({ isLoading: false });
+      // send to API and get weather
+      console.log('zzzzzzzzzz');
+    } catch (error) {
+      Alert.alert('찾을 수 없다.', 'ㅠㅠ');
+    }
+  };
+
+  componentDidMount() {
+    this.getLocation();
+  }
+
+  render() {
+    const { isLoading } = this.state;
+    return isLoading ? <Loading></Loading> : null;
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: 'black',
-  },
-  yellowView: {
-    flex: 1,
-    backgroundColor: 'yellow',
-  },
-  blueView: {
-    flex: 2,
-    backgroundColor: 'blue',
-  },
-});
