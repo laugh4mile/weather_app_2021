@@ -13,7 +13,7 @@ export default class extends React.Component {
   };
 
   getWeather = async (latitude, longitude) => {
-    console.log('data');
+    console.log('getWeather 호출');
     const {
       data: {
         main: { temp },
@@ -28,6 +28,7 @@ export default class extends React.Component {
       temp,
     });
     console.log(this.state);
+    console.log('getWeather 끝');
   };
 
   getLocation = async () => {
